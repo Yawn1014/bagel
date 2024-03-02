@@ -30,14 +30,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Page'),
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/bagel-high-resolution-logo-transparent.png', // Replace with your actual logo asset path
+              width: 400, // Adjust the size as needed
+              height: 200, // Adjust the size as needed
+            ),
+            SizedBox(height: 40), // Adjust the space as needed
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
