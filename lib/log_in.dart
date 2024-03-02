@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'home.dart';
 void main() {
-  runApp(LoginApp());
+  runApp(const LoginApp());
 }
 
 class LoginApp extends StatelessWidget {
@@ -58,8 +58,10 @@ class _LoginPageState extends State<LoginPage> {
                 // Handle login button pressed
                 String email = _emailController.text;
                 String password = _passwordController.text;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()));
                 // For now, just print the email and password
-                print('Email: $email, Password: $password');
               },
               child: Text('LOG IN'),
             ),
