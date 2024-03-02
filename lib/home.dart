@@ -122,19 +122,28 @@ class HomiePage extends StatefulWidget {
       });
     }
   }
-   String displayText = '';
+  String displayText = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('bagel'),
+        title: Text('Nutritional Info'),
       ),
-      body: Center(
-
-        child: Text(
-          displayText,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20),
+      body: displayText.isEmpty ? Center(child: Text("Take a picture of your food!")) : Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Nutritional Information',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            Divider(),
+            menuItem('Calories', '261'),
+            menuItem('Carbs', '52g'),
+            menuItem('Fat', '1.3g'),
+            menuItem('Protein', '11g'),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -143,7 +152,7 @@ class HomiePage extends StatefulWidget {
           var duration = const Duration(seconds: 3);
           sleep(duration);
           setState(() {
-            displayText = '261 calories, 52g carbs, 1.3g fat, 11g protein';
+            displayText = 'Menu Updated';
           });
         },
         child: Icon(Icons.camera_alt),
@@ -156,19 +165,11 @@ class HomiePage extends StatefulWidget {
           children: [
             IconButton(
               icon: Icon(Icons.home),
-              onPressed: () {
-                // Navigate to home page
-              },
+              onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.person),
-              onPressed: () {
-                // Navigate to profile page
-                Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => ProfilePage()),
-  );
-              },
+              onPressed: () {},
             ),
           ],
         ),
@@ -176,6 +177,22 @@ class HomiePage extends StatefulWidget {
     );
   }
 
+  Widget menuItem(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '$title: ',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            value,
+            style: TextStyle(fontSize: 18),
+          ),
+        ],
+      ),
+    );
   }
-
-
+}
