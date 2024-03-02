@@ -1,11 +1,15 @@
+//import 'package:bagel/log_in.dart';
+import 'log_in.dart';
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
+  const StartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
@@ -16,7 +20,7 @@ class StartScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
+              const Text(
                 'Bagel',
                 style: TextStyle(
                   fontSize: 48,
@@ -24,11 +28,14 @@ class StartScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 100), // Provides spacing between logo and buttons
+              const SizedBox(height: 100), // Provides spacing between logo and buttons
               ElevatedButton(
                 child: Text('LOG IN'),
                 onPressed: () {
-                  // Handle sign up action
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginApp()),
+                );
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.blue, backgroundColor: Colors.white,
@@ -36,7 +43,7 @@ class StartScreen extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                child: Text('SIGN UP'),
+                child: const Text('SIGN UP'),
                 onPressed: () {
                   // Handle login action
                 },
