@@ -6,7 +6,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Nutrient Tracker',
+      title: 'bagel',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -23,7 +23,6 @@ class _HomiePageState extends State<HomiePage> {
 
 
   File? _image;
-
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -68,7 +67,6 @@ class _HomiePageState extends State<HomiePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
             _pickImage();
-
         },
         child: Icon(Icons.camera_alt),
       ),
