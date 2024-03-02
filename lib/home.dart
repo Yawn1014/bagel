@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class HomePage extends StatelessWidget {
   @override
@@ -9,23 +10,26 @@ class HomePage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainPage(),
+      home: HomiePage(),
     );
   }
 }
 
-class MainPage extends StatelessWidget {
+class HomiePage extends StatefulWidget {
+  @override
+  _HomiePageState createState() => _HomiePageState();
+}
+class _HomiePageState extends State<HomiePage> {
 
-  final ImagePicker _picker = ImagePicker();
 
-  MainPage({super.key});
+  File? _image;
 
-  Future<void> _captureImage(BuildContext context) async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    // Handle captured image
-    if (image != null) {
-      // Do something with the captured image
-      print('Image path: ${image.path}');
+  Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
     }
   }
   @override
@@ -63,6 +67,7 @@ class MainPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+            _pickImage();
 
         },
         child: Icon(Icons.camera_alt),
