@@ -29,6 +29,8 @@ void imageRequest() async {
 });
   final url = Uri.parse('https://api.openai.com/v1/chat/completions');
 
+
+  
   final res = await http.post(url, headers: headers, body: data);
   final status = res.statusCode;
   if (status != 200) throw Exception('http.post error: statusCode= $status');
