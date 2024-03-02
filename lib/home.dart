@@ -4,6 +4,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'profile.dart';
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -114,6 +116,7 @@ class HomiePage extends StatefulWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
             _pickImage();
+            
         },
         child: Icon(Icons.camera_alt),
       ),
@@ -133,6 +136,10 @@ class HomiePage extends StatefulWidget {
               icon: Icon(Icons.person),
               onPressed: () {
                 // Navigate to profile page
+                Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => ProfilePage()),
+  );
               },
             ),
           ],
