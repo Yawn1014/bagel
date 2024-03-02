@@ -14,7 +14,7 @@ void imageRequest() async {
   'messages': [
     {
       'role': 'user',
-      'content': 'Estimate the calories and macros in this picture',
+      'content': 'Estimate the calories and macros in this picture and give it in this format',
     },
     {
       'role': 'system',

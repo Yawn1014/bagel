@@ -24,7 +24,7 @@ class HomiePage extends StatefulWidget {
   class _HomiePageState extends State<HomiePage> {
 
   static File? _image;
-
+  String responseText ='';
 
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -38,46 +38,86 @@ class HomiePage extends StatefulWidget {
   final String _apiKey = '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'; // Replace with your actual API Key
 
 
-  Future<void> _sendImageToApi() async {
-    if (_image == null) return;
+  Future<void> imageConvertor() async {
 
-    final imageBytes = await _image!.readAsBytes();
-    String base64Image = base64Encode(imageBytes);
+    if (_image == null) return; // Do nothing if no image is selected
+
+    setState(() {
+      responseText = "Analyzing..."; // Update UI to show detecting state
+    });
+
+    // Directly read bytes from the file and encode them to Base64
+    String imageBase64 = base64Encode(await _image!.readAsBytes());
 
     try {
       var response = await http.post(
-        Uri.parse(_apiUrl),
+        Uri.parse('https://api.openai.com/v1/chat/completions'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $_apiKey',
+          'Authorization': 'Bearer $_apiKey', // Replace with your actual API Key
         },
         body: json.encode({
-          'model': 'gpt-4-vision-preview',
+          'model': 'gpt-4-vision-preview', // Specify the model, replace with the actual model you want to use
           'messages': [
-            {
-              'role': 'user',
-              'content': {
-                'image_base64': base64Image
-              }
+            {'role': 'system', 'content': 'You are a helpful assistant, capable of identifying fish and sea creatures in images.'},
+            {'role': 'user', 
+            "content": [
+                {
+                  "type": "text",
+                  // "text": "What fish can you detect in thailand and sharks?"
+
+                  "text": "Give an exact amount of calories, carbs, fats, and protein in the picture. Respond in json only. Assuming JSON content starts with '{' so we can parse it. Should have 'food' key that shows and array dictionary of containing 'name', 'calories', '', 'fat', 'carbs', 'proteins'for each type of food"
+                },
+                {
+                  "type": "image_url",
+                  "image_url": {
+                    // "url": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2022/02/16/0/FNM_030122-Homemade-Bagels_s4x3.jpg.rend.hgtvcom.1280.1280.suffix/1645023418907.jpeg",
+                    "url": 'data:image/jpeg;base64,'+imageBase64
+                  }
+                }
+              ]
             }
           ],
-          'max_tokens': 300,
+          'max_tokens': 1000 // Increase this value as needed
+
         }),
       );
 
       if (response.statusCode == 200) {
-        // Parse the response body
-        final responseBody = json.decode(response.body);
-        print(responseBody);
-        // Handle the response data
-        // ...
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
+        setState(() {
+          var data = json.decode(response.body);
+          var contentString = data['choices']?.first['message']['content'] ?? '';
+
+          // Find the start and end of the JSON content within the 'content' string
+          int jsonStartIndex = contentString.indexOf('{');
+          int jsonEndIndex = contentString.lastIndexOf('}');
+
+          if (jsonStartIndex != -1 && jsonEndIndex != -1) {
+            var jsonString = contentString.substring(jsonStartIndex, jsonEndIndex + 1);
+            var contentData = json.decode(jsonString);
+
+            // Process the extracted JSON data
+            responseText = contentData.toString(); // Or process as needed
+            List<dynamic> foodDetails = contentData['food'] ?? [];
+            List<String> foodList = foodDetails.map((f) => "Name: ${f['name']}, Species: ${f['species']}, Description: ${f['description']}").toList();
+            print(foodList);
+          } else {
+            responseText = 'No valid JSON content found';
+          }
+        });
+
+      }  else {
+        setState(() {
+          responseText = "Error: ${response.statusCode}";
+        });
       }
     } catch (e) {
-      print('An error occurred: $e');
+      setState(() {
+        responseText = "Error: ${e.toString()}";
+      });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,30 +126,6 @@ class HomiePage extends StatefulWidget {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text(
-              'Home Page',
-              style: TextStyle(fontSize: 24.0),
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Text(
-            'Current Nutrients:',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8.0),
-          Text('Calories: 2000'),
-          Text('Protein: 50g'),
-          SizedBox(height: 20.0),
-          Text(
-            'Target Nutrients:',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8.0),
-          Text('Calories: 2500'),
-          Text('Protein: 75g'),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
