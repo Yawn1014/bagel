@@ -5,44 +5,36 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.blue, Colors.blue],
-          ),
-        ),
+        color: Colors.white,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'Bagel',
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+              Image.asset(
+                'assets/bagel-high-resolution-logo-transparent.png', // Replace with your actual asset path to the logo
+                width: 200, // Set the width to the desired value
+                height: 200, // Set the height to the desired value
               ),
               SizedBox(height: 100), // Provides spacing between logo and buttons
               ElevatedButton(
                 child: Text('LOG IN'),
                 onPressed: () {
-                  // Handle sign up action
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.blue, backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                ),
-              ),
-              ElevatedButton(
-                child: Text('SIGN UP'),
-                onPressed: () {
                   // Handle login action
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.blue, backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  foregroundColor: Color(0xFF1F55B3), backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 12),
+                ),
+              ),
+              SizedBox(height: 8),
+              ElevatedButton(
+                child: Text('SIGN UP'),
+                onPressed: () {
+                  // Handle sign up action
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Color(0xFF1F55B3),
+                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 12),
                 ),
               ),
             ],
@@ -52,4 +44,3 @@ class StartScreen extends StatelessWidget {
     );
   }
 }
-
