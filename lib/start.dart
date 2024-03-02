@@ -1,7 +1,7 @@
 //import 'package:bagel/log_in.dart';
 import 'log_in.dart';
 import 'package:flutter/material.dart';
-
+import 'sign_up.dart';
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
@@ -37,7 +37,10 @@ class StartScreen extends StatelessWidget {
               ElevatedButton(
                 child: const Text('SIGN UP'),
                 onPressed: () {
-                  // Handle sign up action
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SigninApp()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, backgroundColor: Color(0xFF1F55B3),
